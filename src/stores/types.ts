@@ -6,3 +6,11 @@ type Produto = {
   id: string;
   foto: string | null | undefined;
 }
+
+type Catalogo = {
+  title: string;
+  description?: string;
+  publicado: boolean;
+  id: string;
+  itens: Produto[];
+}

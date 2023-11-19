@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { ref, computed } from 'vue';
 
-const links =  ref([ 'home', 'login', 'dashboard', 'produtos' ]);
+const links =  ref([ 'home', 'login', 'dashboard', 'produtos', 'catalogos' ]);
 const route = useRoute();
 const pathName =  computed(() => route.name );
 

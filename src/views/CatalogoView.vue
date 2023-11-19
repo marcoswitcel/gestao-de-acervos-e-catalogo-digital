@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { produtosStore } from '@/stores/produtos';
+import { catalogosStore } from '@/stores/catalogos';
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -16,8 +16,8 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   <div class="container">
     <div class="row">
       <div class="col-12 mt-5">
-        <h1>Produtos</h1>
-        <p>Lista de produtos.</p>
+        <h1>Catalogo</h1>
+        <p>Lista de Catalogos.</p>
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -30,17 +30,17 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="[index, produto] of withIndex(produtosStore)" :key="produto.id">
+            <tr v-for="[index, catalogo] of withIndex(catalogosStore)" :key="catalogo.id">
               <td scope="row"> {{ index }}</td>
-              <td> {{ produto.title }}</td>
-              <td> {{ produto.description }}</td>
-              <td> {{ produto.rascunho }}</td>
-              <td> {{ produto.id }}</td>
-              <td> {{ produto.foto }}</td>
+              <td> {{ catalogo.title }}</td>
+              <td> {{ catalogo.description }}</td>
+              <td> {{ catalogo.publicado }}</td>
+              <td> {{ catalogo.id }}</td>
+              <td> {{ catalogo.itens }}</td>
             </tr>
           </tbody>
         </table>
-        <RouterLink class="btn btn-primary" :to="{ name: 'produtos.adicionar' }">Adicionar</RouterLink>
+        <RouterLink class="btn btn-primary" :to="{ name: 'catalogos.adicionar' }">Adicionar</RouterLink>
       </div>
     </div>
   </div>
