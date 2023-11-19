@@ -16,12 +16,22 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   <div class="container">
     <div class="row">
       <div class="col-12 mt-5">
-        <h1>Produtos!</h1>
+        <h1>Produtos</h1>
         <p>Lista de produtos.</p>
-        <table class="table">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th>Título</th>
+              <th>Descrição</th>
+              <th>Rascunho</th>
+              <th>Identificador</th>
+              <th>Fotos</th>
+            </tr>
+          </thead>
           <tbody>
             <tr v-for="[index, produto] of withIndex(produtosStore)" :key="produto.id">
-              <td> {{ index }}</td>
+              <td scope="row"> {{ index }}</td>
               <td> {{ produto.title }}</td>
               <td> {{ produto.description }}</td>
               <td> {{ produto.rascunho }}</td>

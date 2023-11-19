@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { produtosStore } from '@/stores/produtos';
 
-const form = ref(null);
+const $router = useRouter();
+
+
+const form = ref<HTMLFormElement>(null);
 const entity = ref<Produto>({
   title: '',
   description: null,
@@ -12,8 +15,11 @@ const entity = ref<Produto>({
   foto: null,
 });
 
-function handleCreate() {
-  
+function handleCreate(form: HTMLFormElement | null) {
+  if (form === null) return;
+
+  if (!form.reportValidity()) return;
+
   /* 
   const length = produtosStore.length;
   produtosStore.push({
@@ -32,6 +38,8 @@ function handleCreate() {
     id: entity.value.id,
     foto: entity.value.foto,
   });
+
+  $router.push({ name: 'produtos'});
 }
 
 function handleSubmit ($event: Event) {
@@ -51,12 +59,12 @@ function handleSubmit ($event: Event) {
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nome: </label>
                 <input type="text" class="form-control" id="exampleInputEmail1" name="nomeDoProduto"
-                      placeholder="Nome do produto" v-model="entity.title">
+                      placeholder="Nome do produto" v-model="entity.title" required>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Identificação: </label>
                 <input type="text" class="form-control" id="exampleInputPassword1"
-                    placeholder="Identificação do produto" name="identitificacaoDoProduto" v-model="entity.id">
+                    placeholder="Identificação do produto" name="identitificacaoDoProduto" v-model="entity.id" required>
               </div>
               <div class="mb-3">
                 <input class="form-check-input" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" v-model="entity.rascunho">
@@ -80,7 +88,7 @@ function handleSubmit ($event: Event) {
           </div>
           <div class="d-flex justify-content-between">
             <a href="#cancelar">Cancelar</a>
-            <RouterLink class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate()">Cadastrar</RouterLink>
+            <button type="button" class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate(form)">Cadastrar</button>
           </div>
         </form>
       </div>
