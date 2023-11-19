@@ -1,3 +1,21 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+import { produtosStore } from '@/stores/produtos';
+
+function handleCreate() {
+  const length = produtosStore.length;
+
+  produtosStore.push({
+    title: 'Produto ' + length,
+    description: 'Descrição do produto' + length,
+    rascunho: false,
+    id: 'asd-222-asd',
+    foto: null,
+  })
+}
+
+</script>
+
 <template>
   <div class="container">
     <div class="row justify-content-center vh-100 align-items-center">
@@ -38,7 +56,7 @@
           </div>
           <div class="d-flex justify-content-between">
             <a href="#cancelar">Cancelar</a>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <RouterLink class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate($event)">Cadastrar</RouterLink>
           </div>
         </form>
       </div>

@@ -8,6 +8,8 @@ const route = useRoute();
 const pathName =  computed(() => route.name );
 
 function subMenu(linkName: string, currentPathName: string) {
+  if (!linkName || !currentPathName) return false;
+
   return currentPathName.startsWith(linkName);
 }
 
