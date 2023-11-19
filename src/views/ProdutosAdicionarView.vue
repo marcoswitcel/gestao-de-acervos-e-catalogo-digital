@@ -1,17 +1,41 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { produtosStore } from '@/stores/produtos';
 
-function handleCreate() {
-  const length = produtosStore.length;
+const form = ref(null);
+const entity = ref<Produto>({
+  title: '',
+  description: null,
+  rascunho: true,
+  id: '',
+  foto: null,
+});
 
+function handleCreate() {
+  
+  /* 
+  const length = produtosStore.length;
   produtosStore.push({
     title: 'Produto ' + length,
     description: 'Descrição do produto' + length,
     rascunho: false,
     id: 'asd-222-asd',
     foto: null,
-  })
+  });
+  */
+
+  produtosStore.push({
+    title: entity.value.title,
+    description: entity.value.description,
+    rascunho: entity.value.rascunho,
+    id: entity.value.id,
+    foto: entity.value.foto,
+  });
+}
+
+function handleSubmit ($event: Event) {
+  $event.preventDefault()
 }
 
 </script>
@@ -20,22 +44,22 @@ function handleCreate() {
   <div class="container">
     <div class="row justify-content-center vh-100 align-items-center">
       <div class="col-12 col-md-8 col-lg-6 pb-5">
-        <form class="pb-5" method="get" action="./home-page.html" onsubmit="handleEvent(event)">
-          <legend class="h2 mb-3">Cadastrar Item no Catálogo</legend>
+        <form ref="form" class="pb-5" method="get" action="" @submit="handleSubmit($event)">
+          <legend class="h2 mb-3">Cadastrar Novo Produto</legend>
           <div class="d-flex">
             <div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nome: </label>
                 <input type="text" class="form-control" id="exampleInputEmail1" name="nomeDoProduto"
-                      placeholder="Nome do produto">
+                      placeholder="Nome do produto" v-model="entity.title">
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Identificação: </label>
                 <input type="text" class="form-control" id="exampleInputPassword1"
-                    placeholder="Identificação do produto" name="identitificacaoDoProduto">
+                    placeholder="Identificação do produto" name="identitificacaoDoProduto" v-model="entity.id">
               </div>
               <div class="mb-3">
-                <input class="form-check-input" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" checked>
+                <input class="form-check-input" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" v-model="entity.rascunho">
                 <label class="form-check-label" for="flexCheckChecked">
                   Rascunho
                 </label>
@@ -43,10 +67,10 @@ function handleCreate() {
               <div class="mb-3">
                 <label for="exampleInputPassword2" class="form-label">Descrição: </label>
                 <textarea class="form-control"
-                    placeholder="Descrição do Produto"
-                    id="exampleInputPassword2"
-                    name="descricaoDoProduto"
-                    rows="3"></textarea>
+                  placeholder="Descrição do Produto"
+                  id="exampleInputPassword2"
+                  name="descricaoDoProduto"
+                  rows="3" v-model="entity.description"></textarea>
 
               </div>
             </div>
@@ -56,7 +80,7 @@ function handleCreate() {
           </div>
           <div class="d-flex justify-content-between">
             <a href="#cancelar">Cancelar</a>
-            <RouterLink class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate($event)">Cadastrar</RouterLink>
+            <RouterLink class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate()">Cadastrar</RouterLink>
           </div>
         </form>
       </div>
