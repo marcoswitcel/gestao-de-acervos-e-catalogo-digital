@@ -1,12 +1,22 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { produtosStore } from '@/stores/produtos';
+import { produtosRepository } from '@/repositories';
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
   for (const item of iterable) {
     yield [index, item];
     index++;
+  }
+}
+
+
+function handleDelete(produto: Produto) {
+  if (window.confirm(`Deletar o registro com id: ${produto.id}?`)) {
+    produtosRepository.deleteById(produto.id)
+      .then((value) => console.log('then ' + value))
+      .catch((err) => console.log('finally ' + err))
   }
 }
 
@@ -17,7 +27,7 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
     <div class="row">
       <div class="col-12 mt-5">
         <h1>Produtos</h1>
-        <p>Lista de produtos.</p>
+        <p>Listas de produtos</p>
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -27,6 +37,7 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
               <th>Rascunho</th>
               <th>Identificador</th>
               <th>Fotos</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +48,9 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
               <td> {{ produto.rascunho }}</td>
               <td> {{ produto.id }}</td>
               <td> {{ produto.foto }}</td>
+              <td>
+                <button type="button" class="btn btn-danger" @click="$event => handleDelete(produto)">Deletar</button>
+              </td>
             </tr>
           </tbody>
         </table>
