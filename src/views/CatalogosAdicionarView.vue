@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { catalogosStore } from '@/stores/catalogos';
+import { gerarLink } from '@/utilities';
 
 const $router = useRouter();
 
@@ -58,8 +59,11 @@ function handleSubmit ($event: Event) {
               <div class="mb-3">
                 <input class="form-check-input" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" v-model="entity.publicado">
                 <label class="form-check-label" for="flexCheckChecked">
-                  Rascunho
+                  Publicado
                 </label>
+              </div>
+              <div class="mb-3" v-if="entity.publicado && entity.id">
+                Link após salvar: <a :href="gerarLink(entity.id)" target="_blank">{{ gerarLink(entity.id)  }}</a>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword2" class="form-label">Descrição: </label>
@@ -70,9 +74,6 @@ function handleSubmit ($event: Event) {
                   rows="3" v-model="entity.description"></textarea>
 
               </div>
-            </div>
-            <div class="border border-2 flex-grow-1 m-4 text-center align-middle">
-              Foto
             </div>
           </div>
           <div class="d-flex justify-content-between">

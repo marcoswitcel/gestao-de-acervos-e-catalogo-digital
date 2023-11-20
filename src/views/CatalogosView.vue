@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { catalogosStore } from '@/stores/catalogos';
+import { gerarLink } from '@/utilities';
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -24,7 +25,7 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
               <th scope="col">#</th>
               <th>Título</th>
               <th>Descrição</th>
-              <th>Rascunho</th>
+              <th>Publicado</th>
               <th>Identificador</th>
               <th>Fotos</th>
             </tr>
@@ -34,7 +35,7 @@ function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
               <td scope="row"> {{ index }}</td>
               <td> {{ catalogo.title }}</td>
               <td> {{ catalogo.description }}</td>
-              <td> {{ catalogo.publicado }}</td>
+              <td> {{ catalogo.publicado ? gerarLink(catalogo.id) : 'não' }}</td>
               <td> {{ catalogo.id }}</td>
               <td> {{ catalogo.itens }}</td>
             </tr>

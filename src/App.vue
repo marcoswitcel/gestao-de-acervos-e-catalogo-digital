@@ -16,14 +16,6 @@ function subMenu(linkName: string, currentPathName: string) {
 </script>
 
 <template>
-  <header v-if="true">
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="30" height="30" />
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/login">Login</RouterLink>
-    </nav>
-  </header>
-
   <div class="d-flex vh-100">
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px">
       <a
@@ -68,21 +60,4 @@ function subMenu(linkName: string, currentPathName: string) {
 </template>
 
 <style scoped>
-header {
-  display: flex;
-  position: fixed;
-  top: 5px;
-  left: calc(50vw - 75px);
-  width: fit-content;
-  background-color: white;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
-  border-radius: 3px;
-}
-nav {
-}
-nav a {
-  margin: 0.3em;
-  vertical-align: middle;
-}
 </style>

@@ -35,13 +35,18 @@ const router = createRouter({
     {
       path: '/catalogos',
       name: 'catalogos',
-      component: () => import('../views/CatalogoView.vue')
+      component: () => import('../views/CatalogosView.vue')
     },
     {
       path: '/catalogos/adicionar',
       name: 'catalogos.adicionar',
       component: () => import('../views/CatalogosAdicionarView.vue')
-    }
+    },
+    {
+      path: '/catalogos/shared/:id',
+      name: 'catalogos.shared-detail',
+      component: () => import('../views/CatalogoDetalhesShared.vue')
+    },
   ]
 })
 
