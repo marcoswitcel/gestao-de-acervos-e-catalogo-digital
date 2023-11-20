@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { catalogosStore } from '@/stores/catalogos';
+import { catalogosRepository } from '@/repositories';
 
 const route = useRoute();
 
-const catalogo = catalogosStore.find(entry => entry.id === route.params.id);
+const catalogo = catalogosRepository.findById(route.params.id);
 
 </script>
 

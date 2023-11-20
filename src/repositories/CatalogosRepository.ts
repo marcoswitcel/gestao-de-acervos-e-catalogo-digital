@@ -2,6 +2,14 @@ import { catalogosStore } from '@/stores/catalogos';
 
 export class CatalogosRepository {
 
+  async findById(id: string): Promise<Catalogo | null> {
+    const entry = catalogosStore.find(it => it.id === id);
+    
+    if (!entry) return null;
+
+    return entry;
+  }
+
   async deleteById(id: string): Promise<boolean> {
     const entry = catalogosStore.find(it => it.id === id);
     
