@@ -13,4 +13,9 @@ export class CatalogosRepository {
     
     return true;
   }
+
+  async insert(catalogo: Catalogo): Promise<boolean>  {
+    catalogosStore.push(catalogo);
+    return true;
+  }
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { catalogosStore } from '@/stores/catalogos';
 import { gerarLink } from '@/utilities';
+import { catalogosRepository } from '@/repositories';
 
 const $router = useRouter();
 
@@ -21,7 +21,7 @@ function handleCreate(form: HTMLFormElement | null) {
 
   if (!form.reportValidity()) return;
 
-  catalogosStore.push({
+  catalogosRepository.insert({
     title: entity.value.title,
     description: entity.value.description,
     publicado: entity.value.publicado,

@@ -13,4 +13,9 @@ export class ProdutosRepository {
     
     return true;
   }
+
+  async insert(produto: Produto): Promise<boolean>  {
+    produtosStore.push(produto);
+    return true;
+  }
 }

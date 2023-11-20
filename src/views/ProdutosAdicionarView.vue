@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { produtosStore } from '@/stores/produtos';
+import { produtosRepository } from '@/repositories';
 
 const $router = useRouter();
 
 
-const form = ref<HTMLFormElement>(null);
+const form = ref<HTMLFormElement | null>(null);
 const entity = ref<Produto>({
   title: '',
   description: null,
@@ -20,18 +20,7 @@ function handleCreate(form: HTMLFormElement | null) {
 
   if (!form.reportValidity()) return;
 
-  /* 
-  const length = produtosStore.length;
-  produtosStore.push({
-    title: 'Produto ' + length,
-    description: 'Descrição do produto' + length,
-    rascunho: false,
-    id: 'asd-222-asd',
-    foto: null,
-  });
-  */
-
-  produtosStore.push({
+  produtosRepository.insert({
     title: entity.value.title,
     description: entity.value.description,
     rascunho: entity.value.rascunho,
