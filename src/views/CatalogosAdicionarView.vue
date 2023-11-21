@@ -24,7 +24,7 @@ function handleCreate(form: HTMLFormElement | null) {
   if (!form.reportValidity()) return;
 
   if (updating.value) {
-    catalogosRepository.updateById(entity.value.id, entity.value);
+    catalogosRepository.updateById(route.params.id, entity.value);
   } else {
     catalogosRepository.insert({
       title: entity.value.title,

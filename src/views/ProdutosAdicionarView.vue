@@ -24,7 +24,7 @@ function handleCreate(form: HTMLFormElement | null) {
   if (!form.reportValidity()) return;
 
   if (updating.value) {
-    produtosRepository.updateById(entity.value.id, entity.value);
+    produtosRepository.updateById(route.params.id, entity.value);
   } else {
     produtosRepository.insert({
       title: entity.value.title,
