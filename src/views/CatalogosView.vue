@@ -51,7 +51,10 @@ function handleEdit(catalogo: Catalogo) {
               <td scope="row"> {{ index }}</td>
               <td>{{ catalogo.title }}</td>
               <td>{{ catalogo.description }}</td>
-              <td>{{ catalogo.publicado ? gerarLink(catalogo.id) : 'não' }}</td>
+              <td>
+                <a v-if="catalogo.publicado" :href="gerarLink(catalogo.id)" target="_blank">{{ gerarLink(catalogo.id) }}</a>
+                <span v-else>Não</span>
+              </td>
               <td>{{ catalogo.id }}</td>
               <td>{{ catalogo.itens }}</td>
               <td>
