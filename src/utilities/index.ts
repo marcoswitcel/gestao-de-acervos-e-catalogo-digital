@@ -31,3 +31,15 @@ export class TokenManager {
     userStore.value = null; 
   }
 }
+
+export function persistOnStorage(key: string, value: any) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function retrieveFromStorage<Type>(key: string): Type | null {
+  const value = localStorage.getItem(key);
+
+  if (value == null) return null;
+
+  return JSON.parse(value);
+}

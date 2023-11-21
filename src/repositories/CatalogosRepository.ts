@@ -1,4 +1,5 @@
 import { catalogosStore } from '@/stores/catalogos';
+import { persistOnStorage } from '@/utilities';
 
 export class CatalogosRepository {
 
@@ -18,6 +19,8 @@ export class CatalogosRepository {
 
     catalogosStore[index] = catalogo;
 
+    persistOnStorage('catalogos', catalogosStore);
+
     return true;
   }
 
@@ -29,12 +32,17 @@ export class CatalogosRepository {
     const index = catalogosStore.indexOf(entry);
 
     catalogosStore.splice(index, 1);
+
+    persistOnStorage('catalogos', catalogosStore);
     
     return true;
   }
 
   async insert(catalogo: Catalogo): Promise<boolean>  {
     catalogosStore.push(catalogo);
+
+    persistOnStorage('catalogos', catalogosStore);
+
     return true;
   }
 }

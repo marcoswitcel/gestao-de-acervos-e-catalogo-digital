@@ -1,4 +1,5 @@
 import { produtosStore } from '@/stores/produtos';
+import { persistOnStorage } from '@/utilities';
 
 export class ProdutosRepository {
 
@@ -18,6 +19,8 @@ export class ProdutosRepository {
 
     produtosStore[index] = produto;
 
+    persistOnStorage('produtos', produtosStore);
+
     return true;
   }
 
@@ -30,12 +33,17 @@ export class ProdutosRepository {
     const index = produtosStore.indexOf(entry);
 
     produtosStore.splice(index, 1);
+
+    persistOnStorage('produtos', produtosStore);
     
     return true;
   }
 
   async insert(produto: Produto): Promise<boolean>  {
     produtosStore.push(produto);
+
+    persistOnStorage('produtos', produtosStore);
+
     return true;
   }
 }
