@@ -7,7 +7,8 @@ const $router = useRouter();
 
 const email = ref("");
 
-function handleLogin() {
+function handleLogin($event: Event) {
+  $event.preventDefault();
   
   TokenManager.set({ email: email.value });
   
