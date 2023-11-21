@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { TokenManager } from '@/utilities';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +59,23 @@ const router = createRouter({
       component: () => import('../views/CatalogoDetalhesShared.vue')
     },
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const logged = !!TokenManager.get();
+  if (to.name == 'login') {
+    if (logged) {
+      next({ name: 'dashboard' });  
+    } else {
+      next();
+    }
+  } else {
+    if (logged) {
+      next();
+    } else {
+      next({ name: 'login' });
+    }
+  }
 })
 
 export default router
