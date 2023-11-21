@@ -7,7 +7,18 @@ export class CatalogosRepository {
     
     if (!entry) return null;
 
-    return entry;
+    return JSON.parse(JSON.stringify(entry));
+  }
+
+  async updateById(id: string, catalogo: Catalogo): Promise<boolean> {
+    const entry = catalogosStore.find(it => it.id === id);
+    
+    if (!entry) return false;
+    const index = catalogosStore.indexOf(entry);
+
+    catalogosStore[index] = catalogo;
+
+    return true;
   }
 
   async deleteById(id: string): Promise<boolean> {

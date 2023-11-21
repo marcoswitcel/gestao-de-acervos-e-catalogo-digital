@@ -33,6 +33,11 @@ const router = createRouter({
       component: () => import('../views/ProdutosAdicionarView.vue')
     },
     {
+      path: '/produtos/editar/:id',
+      name: 'produtos.editar',
+      component: () => import('../views/ProdutosAdicionarView.vue')
+    },
+    {
       path: '/catalogos',
       name: 'catalogos',
       component: () => import('../views/CatalogosView.vue')
@@ -40,6 +45,11 @@ const router = createRouter({
     {
       path: '/catalogos/adicionar',
       name: 'catalogos.adicionar',
+      component: () => import('../views/CatalogosAdicionarView.vue')
+    },
+    {
+      path: '/catalogos/editar/:id',
+      name: 'catalogos.editar',
       component: () => import('../views/CatalogosAdicionarView.vue')
     },
     {

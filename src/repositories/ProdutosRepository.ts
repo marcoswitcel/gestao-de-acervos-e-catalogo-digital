@@ -7,8 +7,20 @@ export class ProdutosRepository {
     
     if (!entry) return null;
 
-    return entry;
+    return JSON.parse(JSON.stringify(entry));
   }
+
+  async updateById(id: string, produto: Produto): Promise<boolean> {
+    const entry = produtosStore.find(it => it.id === id);
+    
+    if (!entry) return false;
+    const index = produtosStore.indexOf(entry);
+
+    produtosStore[index] = produto;
+
+    return true;
+  }
+
 
   async deleteById(id: string): Promise<boolean> {
     const entry = produtosStore.find(it => it.id === id);

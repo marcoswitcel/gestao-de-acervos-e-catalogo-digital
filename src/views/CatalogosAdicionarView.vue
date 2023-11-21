@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { gerarLink } from '@/utilities';
 import { catalogosRepository } from '@/repositories';
 
 const $router = useRouter();
+const route = useRoute();
 
+let updating = ref(false);
 
 const form = ref<HTMLFormElement | null>(null);
 const entity = ref<Catalogo>({
@@ -21,19 +23,35 @@ function handleCreate(form: HTMLFormElement | null) {
 
   if (!form.reportValidity()) return;
 
-  catalogosRepository.insert({
-    title: entity.value.title,
-    description: entity.value.description,
-    publicado: entity.value.publicado,
-    id: entity.value.id,
-    itens: [], // @todo João, implementar aqui
-  });
+  if (updating.value) {
+    catalogosRepository.updateById(entity.value.id, entity.value);
+  } else {
+    catalogosRepository.insert({
+      title: entity.value.title,
+      description: entity.value.description,
+      publicado: entity.value.publicado,
+      id: entity.value.id,
+      itens: [], // @todo João, implementar aqui
+    });
+  }
+
 
   $router.push({ name: 'catalogos'});
 }
 
 function handleSubmit ($event: Event) {
   $event.preventDefault()
+}
+
+if (route.params.id) {
+  catalogosRepository.findById(route.params.id)
+    .then((catalogo) => {
+      if (catalogo) {
+        updating.value = true;
+        entity.value = catalogo
+      }
+    })
+    .catch(() => $router.push({ name: 'catalogos' }))
 }
 
 </script>
@@ -78,7 +96,9 @@ function handleSubmit ($event: Event) {
           </div>
           <div class="d-flex justify-content-between">
             <a href="#cancelar">Cancelar</a>
-            <button type="button" class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate(form)">Cadastrar</button>
+            <button type="button" class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate(form)">
+              {{ (updating) ? 'Atualizar' : 'Cadastrar'  }} 
+            </button>
           </div>
         </form>
       </div>

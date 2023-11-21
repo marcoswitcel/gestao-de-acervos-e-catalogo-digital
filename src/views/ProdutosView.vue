@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { produtosStore } from '@/stores/produtos';
 import { produtosRepository } from '@/repositories';
+
+const $router = useRouter();
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -18,6 +20,10 @@ function handleDelete(produto: Produto) {
       .then((value) => console.log('then ' + value))
       .catch((err) => console.log('finally ' + err))
   }
+}
+
+function handleEdit(produto: Produto) {
+  $router.push({ name: 'produtos.editar', params: { id: produto.id }});
 }
 
 </script>
@@ -49,6 +55,7 @@ function handleDelete(produto: Produto) {
               <td> {{ produto.id }}</td>
               <td> {{ produto.foto }}</td>
               <td>
+                <button type="button" class="btn btn-secondary" @click="$event => handleEdit(produto)">Editar</button>
                 <button type="button" class="btn btn-danger" @click="$event => handleDelete(produto)">Deletar</button>
               </td>
             </tr>
