@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, RouterLink } from 'vue-router';
 import { gerarLink } from '@/utilities';
 import { catalogosRepository } from '@/repositories';
 
@@ -95,7 +95,7 @@ if (route.params.id) {
             </div>
           </div>
           <div class="d-flex justify-content-between">
-            <a href="#cancelar">Cancelar</a>
+            <RouterLink :to="{ name: 'catalogos' }">Cancelar</RouterLink>
             <button type="button" class="btn btn-primary" :to="{ name: 'produtos' }" @click="handleCreate(form)">
               {{ (updating) ? 'Atualizar' : 'Cadastrar'  }} 
             </button>

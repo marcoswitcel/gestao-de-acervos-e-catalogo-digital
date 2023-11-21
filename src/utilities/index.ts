@@ -1,3 +1,4 @@
+import { userStore } from "@/stores/user";
 
 export function gerarLink(id: string) {
   return `http://localhost:5173/catalogos/shared/${id}`
@@ -15,10 +16,18 @@ export class TokenManager {
 
     if (!tokenJson) return null;
 
-    return JSON.parse(tokenJson);
+    const token: AppToken = JSON.parse(tokenJson);
+    userStore.value = token;
+    return token;
   }
 
   static set(token: AppToken): void {
     sessionStorage.setItem(this.tokenKey, JSON.stringify(token));
+    userStore.value = token;
+  }
+
+  static clear() {
+    sessionStorage.removeItem(this.tokenKey);
+    userStore.value = null; 
   }
 }
