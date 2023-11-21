@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { catalogosRepository } from '@/repositories';
 
 const route = useRoute();
 
-const catalogo = catalogosRepository.findById(route.params.id);
+const catalogo = ref<Catalogo | null>(null);
+
+catalogosRepository.findById(route.params.id)
+  .then(entry => {
+    catalogo.value = entry;
+  })
 
 </script>
 

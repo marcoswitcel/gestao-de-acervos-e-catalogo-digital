@@ -12,7 +12,7 @@ export class TokenManager {
   static tokenKey = "token";
 
   static get(): AppToken | null {
-    const tokenJson = sessionStorage.getItem(this.tokenKey);
+    const tokenJson = localStorage.getItem(this.tokenKey);
 
     if (!tokenJson) return null;
 
@@ -22,12 +22,12 @@ export class TokenManager {
   }
 
   static set(token: AppToken): void {
-    sessionStorage.setItem(this.tokenKey, JSON.stringify(token));
+    localStorage.setItem(this.tokenKey, JSON.stringify(token));
     userStore.value = token;
   }
 
   static clear() {
-    sessionStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.tokenKey);
     userStore.value = null; 
   }
 }
