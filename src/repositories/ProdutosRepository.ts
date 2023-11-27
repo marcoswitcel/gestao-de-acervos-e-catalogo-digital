@@ -1,49 +1,47 @@
-import { produtosStore } from '@/stores/produtos';
-import { persistOnStorage } from '@/utilities';
+import { $api } from '@/utilities/api';
+
 
 export class ProdutosRepository {
 
-  async findById(id: string): Promise<Produto | null> {
-    const entry = produtosStore.find(it => it.id === id);
-    
-    if (!entry) return null;
+  async getAll(): Promise<Produto[]> {
+    const response = await $api.get<Produto[]>('api/v1/products/');
+    return response.data;
+  }
 
-    return JSON.parse(JSON.stringify(entry));
+  async findById(id: string): Promise<Produto | null> {
+    const response = await $api.get<Produto|null>('api/v1/products/' + id);
+    
+    if (!response.data) return null;
+  
+    return response.data;
   }
 
   async updateById(id: string, produto: Produto): Promise<boolean> {
-    const entry = produtosStore.find(it => it.id === id);
+    const response = await $api.get<Produto|null>('api/v1/products/' + id);
     
-    if (!entry) return false;
-    const index = produtosStore.indexOf(entry);
+    if (!response.data) return false;
 
-    produtosStore[index] = produto;
+    const updatedReponse = await $api.patch<Produto>('api/v1/products/' + id, produto);
 
-    persistOnStorage('produtos', produtosStore);
-
-    return true;
+    return !!updatedReponse.data;
   }
 
 
   async deleteById(id: string): Promise<boolean> {
-    const entry = produtosStore.find(it => it.id === id);
+    const response = await $api.get<Produto|null>('api/v1/products/' + id);
     
-    if (!entry) return false;
+    if (!response.data) return false;
 
-    const index = produtosStore.indexOf(entry);
+    // @note tratar retorno
+    await $api.delete<Produto>('api/v1/products/' + id);
 
-    produtosStore.splice(index, 1);
-
-    persistOnStorage('produtos', produtosStore);
-    
     return true;
   }
 
   async insert(produto: Produto): Promise<boolean>  {
-    produtosStore.push(produto);
+    
+    const createResponse = await $api.post<Produto>('api/v1/products/', produto);
 
-    persistOnStorage('produtos', produtosStore);
-
-    return true;
+    return !!createResponse.data;
   }
 }
