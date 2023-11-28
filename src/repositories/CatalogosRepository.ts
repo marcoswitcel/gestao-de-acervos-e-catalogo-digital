@@ -1,48 +1,45 @@
-import { catalogosStore } from '@/stores/catalogos';
-import { persistOnStorage } from '@/utilities';
+import { $api } from '@/utilities/api';
 
 export class CatalogosRepository {
 
-  async findById(id: string): Promise<Catalogo | null> {
-    const entry = catalogosStore.find(it => it.id === id);
-    
-    if (!entry) return null;
+  async getAll(): Promise<Catalogo[]> {
+    const response = await $api.get<Catalogo[]>('api/v1/catalogs/');
+    return response.data;
+  }
 
-    return JSON.parse(JSON.stringify(entry));
+  async findById(id: string): Promise<Catalogo | null> {
+    const response = await $api.get<Catalogo|null>('api/v1/catalogs/' + id);
+    
+    if (!response.data) return null;
+  
+    return response.data;
   }
 
   async updateById(id: string, catalogo: Catalogo): Promise<boolean> {
-    const entry = catalogosStore.find(it => it.id === id);
+    const response = await $api.get<Catalogo|null>('api/v1/catalogs/' + id);
     
-    if (!entry) return false;
-    const index = catalogosStore.indexOf(entry);
+    if (!response.data) return false;
 
-    catalogosStore[index] = catalogo;
+    const updatedReponse = await $api.patch<Catalogo>('api/v1/catalogs/' + id, catalogo);
 
-    persistOnStorage('catalogos', catalogosStore);
-
-    return true;
+    return !!updatedReponse.data;
   }
 
   async deleteById(id: string): Promise<boolean> {
-    const entry = catalogosStore.find(it => it.id === id);
+    const response = await $api.get<Catalogo|null>('api/v1/catalogos/' + id);
     
-    if (!entry) return false;
+    if (!response.data) return false;
 
-    const index = catalogosStore.indexOf(entry);
+    // @note tratar retorno
+    await $api.delete<Catalogo>('api/v1/catalogos/' + id);
 
-    catalogosStore.splice(index, 1);
-
-    persistOnStorage('catalogos', catalogosStore);
-    
     return true;
   }
 
   async insert(catalogo: Catalogo): Promise<boolean>  {
-    catalogosStore.push(catalogo);
+    
+    const createResponse = await $api.post<Produto>('api/v1/catalogos/', catalogo);
 
-    persistOnStorage('catalogos', catalogosStore);
-
-    return true;
+    return !!createResponse.data;
   }
 }

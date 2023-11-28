@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import { catalogosStore } from '@/stores/catalogos';
 import { gerarLink } from '@/utilities';
 import { catalogosRepository } from '@/repositories';
 
 const $router = useRouter();
+
+const catalogos = ref<Catalogo[]>([]);
+
+catalogosRepository.getAll()
+  .then(values => {
+    catalogos.value = values;
+  });
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -47,7 +54,7 @@ function handleEdit(catalogo: Catalogo) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="[index, catalogo] of withIndex(catalogosStore)" :key="catalogo.id">
+            <tr v-for="[index, catalogo] of withIndex(catalogos)" :key="catalogo.id">
               <td scope="row"> {{ index }}</td>
               <td>{{ catalogo.title }}</td>
               <td>{{ catalogo.description }}</td>
