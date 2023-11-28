@@ -23,10 +23,11 @@ function handleCreate(form: HTMLFormElement | null) {
 
   if (!form.reportValidity()) return;
 
+  let promise: Promise<any>;
   if (updating.value) {
-    produtosRepository.updateById(route.params.id, entity.value);
+    promise = produtosRepository.updateById(route.params.id, entity.value);
   } else {
-    produtosRepository.insert({
+    promise = produtosRepository.insert({
       title: entity.value.title,
       description: entity.value.description,
       rascunho: entity.value.rascunho,
@@ -35,7 +36,9 @@ function handleCreate(form: HTMLFormElement | null) {
     });
   }
 
-  $router.push({ name: 'produtos'});
+  promise.finally(() => {
+    $router.push({ name: 'produtos'});
+  })
 }
 
 function handleSubmit ($event: Event) {

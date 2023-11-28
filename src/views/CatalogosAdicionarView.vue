@@ -23,10 +23,11 @@ function handleCreate(form: HTMLFormElement | null) {
 
   if (!form.reportValidity()) return;
 
+  let promise: Promise<any>;
   if (updating.value) {
-    catalogosRepository.updateById(route.params.id, entity.value);
+    promise = catalogosRepository.updateById(route.params.id, entity.value);
   } else {
-    catalogosRepository.insert({
+    promise = catalogosRepository.insert({
       title: entity.value.title,
       description: entity.value.description,
       publicado: entity.value.publicado,
@@ -35,8 +36,9 @@ function handleCreate(form: HTMLFormElement | null) {
     });
   }
 
-
-  $router.push({ name: 'catalogos'});
+  promise.finally(() => {
+    $router.push({ name: 'catalogos'});
+  })
 }
 
 function handleSubmit ($event: Event) {
