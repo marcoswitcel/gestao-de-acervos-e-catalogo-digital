@@ -1,7 +1,7 @@
 import { userStore } from "@/stores/user";
 
 export function gerarLink(id: string) {
-  return `http://localhost:5173/catalogos/shared/${id}`
+  return `${import.meta.env.VITE_BASE_URL}/catalogos/shared/${id}`
 }
 
 export type AppToken = {
