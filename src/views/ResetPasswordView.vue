@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 
 const email = ref("");
@@ -31,6 +32,7 @@ function handleLogin($event: Event) {
             />
           </div>
           <div class="d-flex justify-content-between">
+            <RouterLink :to="{ name: 'login' }">Voltar</RouterLink>
             <button type="submit" class="btn btn-primary">Enviar E-mail</button>
           </div>
         </form>
