@@ -2,17 +2,29 @@
 import { useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { TokenManager } from '@/utilities';
+import { $api } from '@/utilities/api';
 
 const $router = useRouter();
 
 const email = ref("");
+const password = ref("");
 
 function handleLogin($event: Event) {
   $event.preventDefault();
   
-  TokenManager.set({ email: email.value });
-  
-  $router.push({ name: 'dashboard' });
+  $api.post<{ email: string, password: string }>('api/v1/users/validate', { email: email.value, password: password.value })
+    .then((response) => {
+      if (response.data) {
+        TokenManager.set({ email: email.value });
+        $router.push({ name: 'dashboard' });
+      } else {
+        alert("Usuário não encontrado. O Admin cadastrou apenas um usuário.");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erro ao tentar autenticar.");
+    })
 }
 
 </script>
@@ -44,6 +56,8 @@ function handleLogin($event: Event) {
               class="form-control"
               id="exampleInputPassword1"
               placeholder="Digite a sua senha"
+              name="password"
+              v-model="password"              
               required
             />
           </div>
