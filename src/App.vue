@@ -5,7 +5,11 @@ import { ref, computed } from 'vue';
 import { userStore } from './stores/user';
 import { TokenManager } from './utilities';
 
-const links =  ref([ 'dashboard', 'produtos', 'catalogos' ]);
+const links =  ref([
+  { title: 'Dashboard', linkName: 'dashboard' },
+  { title: 'Produtos', linkName: 'produtos' },
+  { title: 'Catálogos', linkName: 'catalogos' }
+]);
 const route = useRoute();
 const pathName =  computed(() => route.name );
 
@@ -40,9 +44,9 @@ const styleDisplayed = {
       </a>
       <hr />
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item" v-for="linkName of links" :key="linkName">
+        <li class="nav-item" v-for="{ title, linkName } of links" :key="linkName">
           <RouterLink  class="nav-link link-dark" :class="{ active:  linkName === pathName || subMenu(linkName, pathName) }" :to="{ name: linkName }">
-            {{ linkName }}
+            {{ title }}
           </RouterLink>
         </li>
       </ul>
