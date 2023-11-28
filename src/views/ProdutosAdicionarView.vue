@@ -56,6 +56,10 @@ if (route.params.id) {
     .catch(() => $router.push({ name: 'produtos' }))
 }
 
+function handleSearch (event: Event) {
+  event.preventDefault();
+}
+
 </script>
 
 <template>

@@ -43,3 +43,23 @@ export function retrieveFromStorage<Type>(key: string): Type | null {
 
   return JSON.parse(value);
 }
+
+export function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
+  let index = 0;
+  for (const item of iterable) {
+    yield [index, item];
+    index++;
+  }
+}
+
+export function *filterByTitle<Type>(iterable: Iterable<Type & { title: string }>, title: string): Iterable<Type> {
+  for (const item of iterable) {
+    if (title && title.trim()) {
+      if (item.title.indexOf(title) > -1) {
+        yield item;
+      }
+    } else {
+      yield item;
+    }
+  }
+}

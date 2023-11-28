@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
-import { gerarLink } from '@/utilities';
+import { gerarLink, withIndex, filterByTitle } from '@/utilities';
 import { catalogosRepository } from '@/repositories';
 import SpinLoader from '@/components/SpinLoader.vue';
 
 const $router = useRouter();
 
 const loading = ref(true);
+const filterBy = ref("");
 const catalogos = ref<Catalogo[]>([]);
 
 const updateCatalogos = () => {
@@ -23,13 +24,6 @@ const updateCatalogos = () => {
 
 updateCatalogos();
 
-function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
-  let index = 0;
-  for (const item of iterable) {
-    yield [index, item];
-    index++;
-  }
-}
 
 function handleDelete(catalogo: Catalogo) {
   if (window.confirm(`Deletar o registro com id: ${catalogo.id}?`)) {
@@ -44,6 +38,10 @@ function handleEdit(catalogo: Catalogo) {
   $router.push({ name: 'catalogos.editar', params: { id: catalogo.id }});
 }
 
+function handleSearch (event: Event) {
+  event.preventDefault();
+}
+
 </script>
 
 <template>
@@ -52,6 +50,12 @@ function handleEdit(catalogo: Catalogo) {
       <div class="col-12 mt-5">
         <h1>Catálogo</h1>
         <p>Listas de Catálogos</p>
+        <form @submit="handleSearch" style="text-align: right;">
+          <input type="text" name="filter" v-model="filterBy">
+          <button type="submit">
+            Filtrar
+          </button>
+        </form>
         <SpinLoader v-if="loading" />
         <table v-else class="table table-striped table-hover">
           <thead>
@@ -66,7 +70,7 @@ function handleEdit(catalogo: Catalogo) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="[index, catalogo] of withIndex(catalogos)" :key="catalogo.id">
+            <tr v-for="[index, catalogo] of withIndex(filterByTitle(catalogos, filterBy))" :key="catalogo.id">
               <td scope="row"> {{ index }}</td>
               <td>{{ catalogo.title }}</td>
               <td>{{ catalogo.description }}</td>

@@ -2,11 +2,13 @@
 import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { produtosRepository } from '@/repositories';
+import { withIndex, filterByTitle } from '@/utilities';
 import SpinLoader from '@/components/SpinLoader.vue';
 
 const $router = useRouter();
 
 const loading = ref(true);
+const filterBy = ref("");
 const produtos = ref<Produto[]>([]);
 
 const updateProdutos = () => {
@@ -21,15 +23,6 @@ const updateProdutos = () => {
 
 updateProdutos();
 
-function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
-  let index = 0;
-  for (const item of iterable) {
-    yield [index, item];
-    index++;
-  }
-}
-
-
 function handleDelete(produto: Produto) {
   if (window.confirm(`Deletar o registro com id: ${produto.id}?`)) {
     produtosRepository.deleteById(produto.id)
@@ -43,6 +36,10 @@ function handleEdit(produto: Produto) {
   $router.push({ name: 'produtos.editar', params: { id: produto.id }});
 }
 
+function handleSearch (event: Event) {
+  event.preventDefault();
+}
+
 </script>
 
 <template>
@@ -51,6 +48,12 @@ function handleEdit(produto: Produto) {
       <div class="col-12 mt-5">
         <h1>Produtos</h1>
         <p>Listas de produtos</p>
+        <form @submit="handleSearch" style="text-align: right;">
+          <input type="text" name="filter" v-model="filterBy">
+          <button type="submit">
+            Filtrar
+          </button>
+        </form>
         <SpinLoader v-if="loading" />
         <table v-else class="table table-striped table-hover">
           <thead>
@@ -65,7 +68,7 @@ function handleEdit(produto: Produto) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="[index, produto] of withIndex(produtos)" :key="produto.id">
+            <tr v-for="[index, produto] of withIndex(filterByTitle(produtos, filterBy))" :key="produto.id">
               <td scope="row"> {{ index }}</td>
               <td> {{ produto.title }}</td>
               <td> {{ produto.description }}</td>
