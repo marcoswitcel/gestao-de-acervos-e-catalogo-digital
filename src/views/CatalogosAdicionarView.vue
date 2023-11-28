@@ -77,13 +77,13 @@ if (route.params.id) {
                     placeholder="Identificação do produto" name="identitificacaoDoProduto" v-model="entity.id" required>
               </div>
               <div class="mb-3">
-                <input class="form-check-input" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" v-model="entity.publicado">
                 <label class="form-check-label" for="flexCheckChecked">
-                  Publicado
+                  Link para compartilhamento:
                 </label>
+                <input class="form-check-input mx-3" type="checkbox" name="rascunho" value="rascunho" id="flexCheckChecked" v-model="entity.publicado">
               </div>
               <div class="mb-3" v-if="entity.publicado && entity.id">
-                Link após salvar: <a :href="gerarLink(entity.id)" target="_blank">{{ gerarLink(entity.id)  }}</a>
+                 <a :href="gerarLink(entity.id)" target="_blank">{{ gerarLink(entity.id)  }}</a>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword2" class="form-label">Descrição: </label>

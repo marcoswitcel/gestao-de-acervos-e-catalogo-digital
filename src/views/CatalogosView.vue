@@ -59,7 +59,7 @@ function handleEdit(catalogo: Catalogo) {
               <th scope="col">#</th>
               <th>Título</th>
               <th>Descrição</th>
-              <th>Publicado</th>
+              <th>Publicado/Compartilhamento</th>
               <th>Identificador</th>
               <th>Fotos</th>
               <th>Ações</th>
