@@ -18,6 +18,11 @@ const router = createRouter({
       component: () => import('../views/LoginView.vue')
     },
     {
+      path: '/resetar-senha',
+      name: 'reset-password',
+      component: () => import('../views/ResetPasswordView.vue')
+    },
+    {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('../views/DashboardView.vue')
@@ -63,6 +68,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const logged = !!TokenManager.get();
   if (to.name == 'login') {
+    if (logged) {
+      next({ name: 'dashboard' });  
+    } else {
+      next();
+    }
+  } else if (to.name == 'reset-password') {
     if (logged) {
       next({ name: 'dashboard' });  
     } else {

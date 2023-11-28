@@ -28,7 +28,7 @@ const styleDisplayed = {
 
 <template>
   <div class="d-flex vh-100">
-    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px" v-if="pathName !== 'login'">
+    <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px" v-if="pathName !== 'login' && pathName !== 'reset-password'">
       <a
         href="/"
         class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"

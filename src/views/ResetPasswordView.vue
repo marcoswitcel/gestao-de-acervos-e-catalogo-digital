@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import { useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import { TokenManager } from '@/utilities';
-
-const $router = useRouter();
 
 const email = ref("");
 
 function handleLogin($event: Event) {
   $event.preventDefault();
-  
-  TokenManager.set({ email: email.value });
-  
-  $router.push({ name: 'dashboard' });
+  window.alert("E-mail enviado para " + email.value + "!\n[Ainda não enviando e-mails]");
 }
 
 </script>
@@ -23,9 +16,9 @@ function handleLogin($event: Event) {
       <div class="col-12 col-md-8 col-lg-6 pb-5">
         <form class="pb-5" method="get" action="./dashboard" @submit="handleLogin">
           <h1>Catálogo Digital</h1>
-          <legend class="h2 mb-3">Login</legend>
+          <legend class="h2 mb-3">Digite seu Login</legend>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Login: </label>
+            <label for="exampleInputEmail1" class="form-label">Resetar senha: </label>
             <input
               type="email"
               class="form-control"
@@ -37,19 +30,8 @@ function handleLogin($event: Event) {
               v-model="email"
             />
           </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Senha: </label>
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              placeholder="Digite a sua senha"
-              required
-            />
-          </div>
           <div class="d-flex justify-content-between">
-            <RouterLink :to="{ name: 'reset-password' }">Esqueci minha senha</RouterLink>
-            <button type="submit" class="btn btn-primary">Entrar</button>
+            <button type="submit" class="btn btn-primary">Enviar E-mail</button>
           </div>
         </form>
       </div>
