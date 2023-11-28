@@ -9,11 +9,17 @@ const $router = useRouter();
 const loading = ref(true);
 const produtos = ref<Produto[]>([]);
 
-produtosRepository.getAll()
-  .then(values => {
-    produtos.value = values;
-    loading.value = false;
-  })
+const updateProdutos = () => {
+  loading.value = true;
+
+  produtosRepository.getAll()
+    .then(values => {
+      produtos.value = values;
+      loading.value = false;
+    })
+}
+
+updateProdutos();
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -29,6 +35,7 @@ function handleDelete(produto: Produto) {
     produtosRepository.deleteById(produto.id)
       .then((value) => console.log('then ' + value))
       .catch((err) => console.log('finally ' + err))
+      .finally(() => { updateProdutos() })
   }
 }
 

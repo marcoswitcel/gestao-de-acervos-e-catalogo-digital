@@ -10,11 +10,18 @@ const $router = useRouter();
 const loading = ref(true);
 const catalogos = ref<Catalogo[]>([]);
 
-catalogosRepository.getAll()
-  .then(values => {
-    catalogos.value = values;
-    loading.value = false;
-  });
+const updateCatalogos = () => {
+  loading.value = true;
+
+  catalogosRepository.getAll()
+    .then(values => {
+      catalogos.value = values;
+    }).finally(() => {
+      loading.value = false;
+    });
+};
+
+updateCatalogos();
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
   let index = 0;
@@ -29,6 +36,7 @@ function handleDelete(catalogo: Catalogo) {
     catalogosRepository.deleteById(catalogo.id)
       .then((value) => console.log('then ' + value))
       .catch((err) => console.log('finally ' + err))
+      .finally(() => { updateCatalogos(); })
   }
 }
 

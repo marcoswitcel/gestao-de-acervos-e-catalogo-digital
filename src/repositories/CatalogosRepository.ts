@@ -26,7 +26,7 @@ export class CatalogosRepository {
   }
 
   async deleteById(id: string): Promise<boolean> {
-    const response = await $api.get<Catalogo|null>('api/v1/catalogos/' + id);
+    const response = await $api.delete<Catalogo|null>('api/v1/catalogs/' + id);
     
     if (!response.data) return false;
 
@@ -38,7 +38,7 @@ export class CatalogosRepository {
 
   async insert(catalogo: Catalogo): Promise<boolean>  {
     
-    const createResponse = await $api.post<Produto>('api/v1/catalogos/', catalogo);
+    const createResponse = await $api.post<Produto>('api/v1/catalogs/', catalogo);
 
     return !!createResponse.data;
   }
