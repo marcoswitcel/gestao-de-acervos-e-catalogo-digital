@@ -3,14 +3,17 @@ import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { gerarLink } from '@/utilities';
 import { catalogosRepository } from '@/repositories';
+import SpinLoader from '@/components/SpinLoader.vue';
 
 const $router = useRouter();
 
+const loading = ref(true);
 const catalogos = ref<Catalogo[]>([]);
 
 catalogosRepository.getAll()
   .then(values => {
     catalogos.value = values;
+    loading.value = false;
   });
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
@@ -41,7 +44,8 @@ function handleEdit(catalogo: Catalogo) {
       <div class="col-12 mt-5">
         <h1>Catálogo</h1>
         <p>Listas de Catálogos</p>
-        <table class="table table-striped table-hover">
+        <SpinLoader v-if="loading" />
+        <table v-else class="table table-striped table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>

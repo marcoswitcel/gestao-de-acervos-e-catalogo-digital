@@ -2,14 +2,17 @@
 import { ref } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { produtosRepository } from '@/repositories';
+import SpinLoader from '@/components/SpinLoader.vue';
 
 const $router = useRouter();
 
+const loading = ref(true);
 const produtos = ref<Produto[]>([]);
 
 produtosRepository.getAll()
   .then(values => {
     produtos.value = values;
+    loading.value = false;
   })
 
 function *withIndex<Type>(iterable: Iterable<Type>): Iterable<[number, Type]> {
@@ -41,7 +44,8 @@ function handleEdit(produto: Produto) {
       <div class="col-12 mt-5">
         <h1>Produtos</h1>
         <p>Listas de produtos</p>
-        <table class="table table-striped table-hover">
+        <SpinLoader v-if="loading" />
+        <table v-else class="table table-striped table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>
